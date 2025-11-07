@@ -1,14 +1,18 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout true // prevent automatic checkout before pipeline runs
+    }
     stages {
         stage('Clean Workspace') {
             steps {
-                deleteDir() // wipes out current workspace
+                deleteDir() // ensures the workspace is empty
             }
         }
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Sachin-ingale/django-todo-cicd.git', branch: 'main'
+                git branch: 'main',
+                    url: 'https://github.com/Sachin-ingale/django-todo-cicd.git'
             }
         }
     }
