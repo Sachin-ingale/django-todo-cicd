@@ -1,19 +1,15 @@
 pipeline {
     agent any
-
     stages {
-        stage('Test Workspace') {
+        stage('Clean Workspace') {
             steps {
-                echo "Testing Jenkins workspace..."
-                sh 'whoami'
-                sh 'ls -la'
+                deleteDir() // wipes out current workspace
             }
         }
-    }
-
-    post {
-        always {
-            echo 'Test pipeline finished.'
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Sachin-ingale/django-todo-cicd.git', branch: 'main'
+            }
         }
     }
 }
