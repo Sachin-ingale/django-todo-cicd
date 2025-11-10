@@ -1,18 +1,24 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout true // prevent automatic checkout before pipeline runs
+
+    environment {
+        SONARQUBE = 'Sonar' // Name of your SonarQube installation in Jenkins
     }
+
     stages {
-        stage('Clean Workspace') {
+        stage('SonarQube Analysis') {
             steps {
-                deleteDir() // ensures the workspace is empty
+                withSonarQubeEnv("${SONARQUBE}") {
+                    sh 'sonar-scanner -Dsonar.projectKey=todoapp -Dsonar.sources=.'
+                }
             }
         }
-        stage('Checkout') {
+
+        stage('Quality Gate') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Sachin-ingale/django-todo-cicd.git'
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
