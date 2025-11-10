@@ -13,7 +13,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'token', variable: 'SONAR_AUTH_TOKEN')]) {
+                withCredentials([string(credentialsId: 'Sonar-token', variable: 'SONAR_AUTH_TOKEN')]) {
                     sh """
                     docker run --rm -v $PWD:/usr/src \
                       -e SONAR_HOST_URL=http://10.0.2.15:9000 \
