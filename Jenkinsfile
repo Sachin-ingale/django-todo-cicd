@@ -15,11 +15,13 @@ pipeline {
                         sh """
                         docker run --rm \\
                           -v \$(pwd):/usr/src \\
+                          -e SONAR_HOST_URL=$SONAR_HOST_URL \\
+                          -e SONAR_LOGIN=$SONAR_AUTH_TOKEN \\
                           sonarsource/sonar-scanner-cli \\
                           -Dsonar.projectKey=todoapp \\
                           -Dsonar.sources=/usr/src \\
                           -Dsonar.host.url=$SONAR_HOST_URL \\
-                          -Dsonar.login=${SONAR_TOKEN}
+                          -Dsonar.login=$SONAR_TOKEN
                         """
                     }
                 }
