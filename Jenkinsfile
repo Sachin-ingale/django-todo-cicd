@@ -10,7 +10,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('MySonarQubeServer') {
+                withSonarQubeEnv('Sonar') {
                     withCredentials([string(credentialsId: 'Sonar-token', variable: 'SONAR_TOKEN')]) {
                         sh """
                         docker run --rm \\
